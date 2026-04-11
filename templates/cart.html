@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+{% block title %}Your Cart — LUMIÈRE{% endblock %}
+
+{% block extra_styles %}
+.page-header {
+  padding: 3rem 2.5rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.page-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 0.5rem;
+}
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 4rem;
+  padding: 0 2.5rem;
+  align-items: start;
+}
+
+.cart-items { display: flex; flex-direction: column; gap: 1rem; }
+.cart-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1.2rem;
+  align-items: center;
+  padding: 1.2rem;
+  transition: box-shadow 0.2s;
+}
+.cart-item:hover { box-shadow: var(--shadow); }
+.item-thumb {
+  background: linear-gradient(135deg, #F0EBE1, #E8E0D4);
+  border-radius: 0.5rem;
+  width: 80px; height: 80px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+.item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+.item-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--warm-gray);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+.item-price { font-size: 0.85rem; color: var(--warm-gray); }
+.item-price strong { color: var(--ink); font-size: 1rem; }
+.item-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 0.8rem; }
+.qty-row-sm { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: 2rem; overflow: hidden; }
+.qty-btn-sm {
+  width: 30px; height: 30px;
+  background: none; border: none;
+  cursor: pointer; font-size: 1rem;
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.qty-btn-sm:hover { background: var(--border); }
+.qty-display {
+  width: 32px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+}
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--warm-gray);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.remove-btn:hover { color: var(--accent); }
+.subtotal {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ORDER SUMMARY */
+.order-summary {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 0.75rem;
+  padding: 1.8rem;
+  position: sticky;
+  top: 80px;
+}
+.summary-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(245,240,232,0.6);
+  margin-bottom: 0.8rem;
+}
+.summary-line.total {
+  color: var(--cream);
+  font-size: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245,240,232,0.15);
+  margin-top: 0.5rem;
+}
+.summary-line .amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+.summary-line.total .amount {
+  font-size: 1.5rem;
+}
+.checkout-btn {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 0.9rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.checkout-btn:hover { background: #C9A86A; }
+.continue-link {
+  display: block;
+  text-align: center;
+  margin-top: 0.8rem;
+  color: rgba(245,240,232,0.5);
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+.continue-link:hover { color: var(--cream); }
+.perks {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.4);
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 5rem 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.empty-cart .big-icon { font-size: 5rem; display: block; margin-bottom: 1.5rem; }
+.empty-cart h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem; }
+.empty-cart p { color: var(--warm-gray); margin-bottom: 2rem; }
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="page-eyebrow">Your Selection</div>
+  <h1 class="page-title">Shopping Cart
+    {% if items %}<span style="font-size:1.2rem;color:var(--warm-gray);font-weight:300;"> — {{ items|length }} item{% if items|length != 1 %}s{% endif %}</span>{% endif %}
+  </h1>
+</div>
+
+{% if items %}
+<div class="cart-layout">
+  <div class="cart-items" id="cart-items">
+    {% for item in items %}
+    <div class="cart-item" id="item-{{ item.id }}">
+      <div class="item-thumb">{{ item.image }}</div>
+      <div>
+        <div class="item-cat">{{ item.category }}</div>
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-price">Unit price: <strong>${{ "%.2f"|format(item.price) }}</strong></div>
+      </div>
+      <div class="item-controls">
+        <span class="subtotal" id="sub-{{ item.id }}">${{ "%.2f"|format(item.subtotal) }}</span>
+        <div class="qty-row-sm">
+          <button class="qty-btn-sm" onclick="updateQty({{ item.id }}, -1)">−</button>
+          <span class="qty-display" id="qty-{{ item.id }}">{{ item.qty }}</span>
+          <button class="qty-btn-sm" onclick="updateQty({{ item.id }}, 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem({{ item.id }})">Remove</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="order-summary">
+    <div class="summary-title">Order Summary</div>
+    <div class="summary-line">
+      <span>Subtotal</span>
+      <span class="amount" id="summary-subtotal">${{ "%.2f"|format(total) }}</span>
+    </div>
+    <div class="summary-line">
+      <span>Shipping</span>
+      <span>{% if total >= 75 %}Free{% else %}$8.99{% endif %}</span>
+    </div>
+    <div class="summary-line">
+      <span>Tax (8%)</span>
+      <span class="amount" id="summary-tax">${{ "%.2f"|format(total * 0.08) }}</span>
+    </div>
+    <div class="summary-line total">
+      <span>Total</span>
+      <span class="amount" id="summary-total">
+        ${{ "%.2f"|format(total + (0 if total >= 75 else 8.99) + total * 0.08) }}
+      </span>
+    </div>
+    <a href="/checkout" class="checkout-btn">Proceed to Checkout →</a>
+    <a href="/" class="continue-link">← Continue Shopping</a>
+    <div class="perks">
+      <div class="perk">🔒 Secure 256-bit encryption</div>
+      <div class="perk">📦 Free shipping on orders over $75</div>
+      <div class="perk">↩️ Free 30-day returns</div>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="empty-cart">
+  <span class="big-icon">🛒</span>
+  <h2>Your cart is empty</h2>
+  <p>You haven't added anything yet. Explore our curated collection.</p>
+  <a href="/" class="btn btn-primary">Browse Collection</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const prices = {
+    {% for item in items %}{{ item.id }}: {{ item.price }},{% endfor %}
+  };
+
+  async function updateQty(pid, delta) {
+    const el = document.getElementById(`qty-${pid}`);
+    const current = parseInt(el.textContent);
+    const newQty = Math.max(0, current + delta);
+
+    const res = await fetch('/cart/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_id: pid, qty: newQty })
+    });
+    const data = await res.json();
+
+    if (newQty === 0) {
+      document.getElementById(`item-${pid}`).remove();
+    } else {
+      el.textContent = newQty;
+      document.getElementById(`sub-${pid}`).textContent =
+        '$' + (prices[pid] * newQty).toFixed(2);
+    }
+
+    document.getElementById('cart-count').textContent = data.cart_count;
+    updateSummary(data.total);
+  }
+
+  async function removeItem(pid) {
+    const res = await fetch(`/cart/remove/${pid}`, { method: 'POST' });
+    const data = await res.json();
+    document.getElementById(`item-${pid}`).remove();
+    document.getElementById('cart-count').textContent = data.cart_count;
+    updateSummary(data.total);
+    if (data.cart_count === 0) location.reload();
+  }
+
+  function updateSummary(total) {
+    const shipping = total >= 75 ? 0 : 8.99;
+    const tax = total * 0.08;
+    document.getElementById('summary-subtotal').textContent = '$' + total.toFixed(2);
+    document.getElementById('summary-tax').textContent = '$' + tax.toFixed(2);
+    document.getElementById('summary-total').textContent = '$' + (total + shipping + tax).toFixed(2);
+  }
+</script>
+{% endblock %}

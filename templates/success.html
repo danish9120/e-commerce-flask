@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed — LUMIÈRE{% endblock %}
+
+{% block extra_styles %}
+.success-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+.success-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 4rem;
+  max-width: 520px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.success-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 24px rgba(76,175,80,0.3);
+}
+.success-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+.success-msg {
+  color: var(--warm-gray);
+  line-height: 1.7;
+  font-size: 0.92rem;
+  margin-bottom: 2rem;
+}
+.order-num {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  margin-bottom: 2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--warm-gray);
+}
+.order-num strong { color: var(--ink); font-size: 1rem; }
+.success-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+{% endblock %}
+
+{% block content %}
+<div class="success-page">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <div class="success-eyebrow">Order Confirmed</div>
+    <h1 class="success-title">Thank you for your purchase!</h1>
+    <p class="success-msg">
+      Your order has been received and is being processed. You'll receive a
+      confirmation email shortly with tracking details.
+    </p>
+    <div class="order-num">
+      Order <strong>#LUM-{{ range(10000, 99999) | random }}</strong> — Processing
+    </div>
+    <div class="success-actions">
+      <a href="/" class="btn btn-primary">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

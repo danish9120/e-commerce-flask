@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block title %}Checkout — LUMIÈRE{% endblock %}
+
+{% block extra_styles %}
+.checkout-wrapper {
+  max-width: 960px;
+  margin: 3rem auto;
+  padding: 0 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2.5rem;
+  align-items: start;
+}
+.checkout-form-section { }
+.section-header {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group.full { grid-column: 1 / -1; }
+label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  font-family: 'DM Mono', monospace;
+}
+input[type=text], input[type=email], input[type=tel], select, input[type=number] {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 0.5rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.88rem;
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+input:focus, select:focus { border-color: var(--accent); }
+.step-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+.card-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
+
+/* ORDER SIDEBAR */
+.order-sidebar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  position: sticky;
+  top: 80px;
+}
+.sidebar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.order-item {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.order-thumb {
+  background: linear-gradient(135deg, #F0EBE1, #E8E0D4);
+  border-radius: 0.4rem;
+  width: 50px; height: 50px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+}
+.order-item-name { font-size: 0.85rem; font-weight: 500; }
+.order-item-meta { font-size: 0.75rem; color: var(--warm-gray); }
+.order-item-price { margin-left: auto; font-size: 0.88rem; font-weight: 500; white-space: nowrap; }
+.divider-line { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.83rem;
+  color: var(--warm-gray);
+  margin-bottom: 0.5rem;
+}
+.price-row.grand {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.price-row.grand span:last-child {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+
+.place-order-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 1rem;
+  border-radius: 2rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background 0.2s;
+}
+.place-order-btn:hover { background: var(--accent-light); }
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="/checkout">
+<div class="checkout-wrapper">
+  <!-- LEFT: FORM -->
+  <div class="checkout-form-section">
+    <div class="step-label">Step 1 of 1</div>
+    <h2 class="section-header">Shipping & Payment</h2>
+
+    <div class="step-label" style="margin-bottom:0.8rem;">Shipping Address</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="fname" placeholder="Jane" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="lname" placeholder="Doe" required>
+      </div>
+      <div class="form-group full">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="jane@example.com" required>
+      </div>
+      <div class="form-group full">
+        <label>Street Address</label>
+        <input type="text" name="address" placeholder="123 Main Street" required>
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" name="city" placeholder="New York" required>
+      </div>
+      <div class="form-group">
+        <label>ZIP Code</label>
+        <input type="text" name="zip" placeholder="10001" required>
+      </div>
+      <div class="form-group full">
+        <label>Country</label>
+        <select name="country">
+          <option>United States</option>
+          <option>Canada</option>
+          <option>United Kingdom</option>
+          <option>Australia</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="step-label" style="margin-bottom:0.8rem;">Payment Details</div>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Cardholder Name</label>
+        <input type="text" name="card_name" placeholder="Jane Doe" required>
+      </div>
+      <div class="form-group full">
+        <label>Card Number</label>
+        <input type="text" name="card_num" placeholder="•••• •••• •••• ••••" maxlength="19" required>
+      </div>
+      <div class="form-group">
+        <label>Expiry</label>
+        <input type="text" name="expiry" placeholder="MM / YY" maxlength="7" required>
+      </div>
+      <div class="form-group">
+        <label>CVV</label>
+        <input type="text" name="cvv" placeholder="•••" maxlength="4" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <div class="order-sidebar">
+    <div class="sidebar-title">Your Order</div>
+    {% for item in items %}
+    <div class="order-item">
+      <div class="order-thumb">{{ item.image }}</div>
+      <div>
+        <div class="order-item-name">{{ item.name }}</div>
+        <div class="order-item-meta">Qty: {{ item.qty }}</div>
+      </div>
+      <div class="order-item-price">${{ "%.2f"|format(item.subtotal) }}</div>
+    </div>
+    {% endfor %}
+    <hr class="divider-line">
+    <div class="price-row"><span>Subtotal</span><span>${{ "%.2f"|format(total) }}</span></div>
+    <div class="price-row">
+      <span>Shipping</span>
+      <span>{% if total >= 75 %}Free{% else %}$8.99{% endif %}</span>
+    </div>
+    <div class="price-row">
+      <span>Tax (8%)</span>
+      <span>${{ "%.2f"|format(total * 0.08) }}</span>
+    </div>
+    <div class="price-row grand">
+      <span>Total</span>
+      <span>${{ "%.2f"|format(total + (0 if total >= 75 else 8.99) + total * 0.08) }}</span>
+    </div>
+    <button type="submit" class="place-order-btn">Place Order →</button>
+  </div>
+</div>
+</form>
+{% endblock %}

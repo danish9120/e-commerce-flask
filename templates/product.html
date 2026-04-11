@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — LUMIÈRE{% endblock %}
+
+{% block extra_styles %}
+.breadcrumb {
+  padding: 1.2rem 2.5rem;
+  font-size: 0.78rem;
+  color: var(--warm-gray);
+  letter-spacing: 0.05em;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.breadcrumb a { color: var(--warm-gray); text-decoration: none; }
+.breadcrumb a:hover { color: var(--ink); }
+
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 0 2.5rem;
+}
+.product-gallery {
+  background: linear-gradient(135deg, #F0EBE1, #E2D9CC);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10rem;
+  min-height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.product-gallery::before {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(196,82,42,0.08);
+}
+
+.product-info { padding: 0.5rem 0; }
+.product-category {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  color: var(--warm-gray);
+  font-size: 0.85rem;
+}
+.stars-lg { color: var(--gold); font-size: 1rem; letter-spacing: 0.05em; }
+.product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+.product-desc {
+  color: var(--warm-gray);
+  line-height: 1.8;
+  font-size: 0.92rem;
+  margin-bottom: 2rem;
+}
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--warm-gray);
+}
+.feature-item::before { content: '✓'; color: var(--accent); font-weight: 600; }
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.qty-control {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+.qty-btn {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--ink);
+  transition: background 0.15s;
+}
+.qty-btn:hover { background: var(--border); }
+.qty-val {
+  width: 40px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.action-row { display: flex; gap: 0.8rem; }
+.action-row .btn { flex: 1; justify-content: center; padding: 0.9rem 1.5rem; }
+
+.trust-items {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--warm-gray);
+}
+
+/* RELATED */
+.related {
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 0 2.5rem;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 0.4rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+.mini-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+}
+.mini-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.mini-img {
+  background: linear-gradient(135deg, #F0EBE1, #E8E0D4);
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+}
+.mini-body { padding: 0.9rem; }
+.mini-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 0.25rem; }
+.mini-price { font-size: 0.85rem; color: var(--accent); font-weight: 500; }
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <a href="/">Shop</a> › <a href="/?category={{ product.category }}">{{ product.category }}</a> › {{ product.name }}
+</div>
+
+<div class="product-layout">
+  <div class="product-gallery">
+    <span style="position:relative;z-index:1;">{{ product.image }}</span>
+  </div>
+
+  <div class="product-info">
+    <div class="product-category">{{ product.category }}</div>
+    <h1 class="product-name">{{ product.name }}</h1>
+    <div class="product-rating">
+      <span class="stars-lg">{% for i in range(5) %}{% if i < product.rating|int %}★{% else %}☆{% endif %}{% endfor %}</span>
+      <strong>{{ product.rating }}</strong>
+      <span>— {{ product.reviews }} reviews</span>
+    </div>
+    <div class="product-price">${{ "%.2f"|format(product.price) }}</div>
+    <hr class="divider">
+    <p class="product-desc">{{ product.description }}</p>
+    <div class="features">
+      <div class="feature-item">Free shipping over $75</div>
+      <div class="feature-item">30-day returns</div>
+      <div class="feature-item">2-year warranty</div>
+      <div class="feature-item">Authentic product</div>
+    </div>
+    <div class="qty-row">
+      <span style="font-size:0.8rem;color:var(--warm-gray);letter-spacing:0.05em;">Quantity</span>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input class="qty-val" id="qty" type="number" value="1" min="1" max="10" readonly>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <div class="action-row">
+      <button class="btn btn-primary" onclick="addToCartQty({{ product.id }})">🛒 Add to Cart</button>
+      <a href="/cart" class="btn btn-outline">View Cart</a>
+    </div>
+    <div class="trust-items">
+      <span class="trust-item">🔒 Secure Checkout</span>
+      <span class="trust-item">📦 Fast Dispatch</span>
+      <span class="trust-item">💬 24/7 Support</span>
+    </div>
+  </div>
+</div>
+
+{% if related %}
+<section class="related">
+  <div class="section-label">You May Also Like</div>
+  <h2 class="section-title">Related Items</h2>
+  <div class="related-grid">
+    {% for r in related %}
+    <a href="/product/{{ r.id }}" class="mini-card">
+      <div class="mini-img">{{ r.image }}</div>
+      <div class="mini-body">
+        <div class="mini-name">{{ r.name }}</div>
+        <div class="mini-price">${{ "%.2f"|format(r.price) }}</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function changeQty(delta) {
+    const el = document.getElementById('qty');
+    const current = parseInt(el.value);
+    const next = Math.max(1, Math.min(10, current + delta));
+    el.value = next;
+  }
+
+  async function addToCartQty(productId) {
+    const qty = parseInt(document.getElementById('qty').value);
+    for (let i = 0; i < qty; i++) {
+      await fetch(`/cart/add/${productId}`, { method: 'POST' });
+    }
+    const res = await fetch(`/cart/add/${productId}`, { method: 'POST' });
+    const data = await res.json();
+    document.getElementById('cart-count').textContent = data.cart_count;
+    showToast(`Added ${qty} item${qty>1?'s':''} to cart!`);
+  }
+</script>
+{% endblock %}

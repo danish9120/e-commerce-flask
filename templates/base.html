@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}DANISH — Modern Store{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1614;
+      --warm-gray: #8C857D;
+      --accent: #C4522A;
+      --accent-light: #E8735A;
+      --gold: #B8975A;
+      --surface: #FDFAF4;
+      --border: #E2DAD0;
+      --shadow: 0 2px 20px rgba(26,22,20,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,22,20,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--ink);
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+
+    .nav-links a {
+      color: rgba(245,240,232,0.65);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cream); }
+
+    .cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.1rem;
+      border-radius: 2rem;
+      font-size: 0.78rem !important;
+      letter-spacing: 0.08em !important;
+      transition: background 0.2s !important;
+    }
+    .cart-btn:hover { background: var(--accent-light) !important; }
+
+    .cart-badge {
+      background: var(--gold);
+      color: var(--ink);
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    /* ── FLASH ── */
+    .flash-bar {
+      background: var(--ink);
+      color: var(--gold);
+      text-align: center;
+      padding: 0.6rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.9rem 1.6rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--gold);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 999;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(245,240,232,0.5);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      margin-top: 5rem;
+    }
+    footer strong { color: var(--gold); font-weight: 400; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1.8rem;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+    .btn-outline:hover { background: var(--ink); color: var(--cream); }
+    .btn-gold { background: var(--gold); color: var(--ink); }
+    .btn-gold:hover { background: #C9A86A; }
+
+    { % block extra_styles % } { % endblock % }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">DANISH<span>RE</span></a>
+  <div class="nav-links">
+    <a href="/">Shop</a>
+    <a href="/?category=Electronics">Electronics</a>
+    <a href="/?category=Accessories">Accessories</a>
+    <a href="/?category=Sports">Sports</a>
+    <a href="/cart" class="cart-btn">
+      🛒 Cart
+      <span class="cart-badge" id="cart-count">{{ cart_count }}</span>
+    </a>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="flash-bar">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div id="toast"></div>
+
+{% block content %}{% endblock %}
+
+<footer>
+  <p>© 2026 <strong>DANISH</strong> — Curated Objects for Modern Living</p>
+</footer>
+
+<script>
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  async function addToCart(productId) {
+    const res = await fetch(`/cart/add/${productId}`, { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('cart-count').textContent = data.cart_count;
+      showToast(data.message);
+    }
+  }
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
