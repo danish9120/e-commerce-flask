@@ -1,11 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import json
 import os
-
 app = Flask(__name__)
 app.secret_key = 'ecommerce-secret-key-2026'
-
-# ── Sample product data ──────────────────────────────────────────────────────
 PRODUCTS = [
     {"id": 1, "name": "Wireless Headphones", "price": 149.99, "category": "Electronics",
      "description": "Premium sound with active noise cancellation and 30-hour battery life.",
@@ -34,8 +31,6 @@ PRODUCTS = [
 ]
 
 CATEGORIES = ["All", "Electronics", "Accessories", "Sports"]
-
-# ── Helpers ──────────────────────────────────────────────────────────────────
 def get_cart():
     return session.get('cart', {})
 
@@ -51,7 +46,6 @@ def cart_total():
             total += product['price'] * qty
     return round(total, 2)
 
-# ── Routes ───────────────────────────────────────────────────────────────────
 @app.route('/')
 def index():
     category = request.args.get('category', 'All')
